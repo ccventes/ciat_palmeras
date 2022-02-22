@@ -12,11 +12,7 @@ module.exports = {
         type: DataTypes.STRING,
         allowNull: false
       },
-      eHorizontal: {
-        type: DataTypes.STRING,
-        allowNull: false
-      },
-      eVertical: {
+      area: {
         type: DataTypes.STRING,
         allowNull: false
       },

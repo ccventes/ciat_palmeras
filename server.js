@@ -17,10 +17,10 @@ app.post('/zonas', async(req, res)=> {
 
     console.log("entro aqui");
     console.log(req.body);
-    const{numero,eHorizontal,eVertical } = req.body
+    const{numero,area } = req.body
     try{
         
-        const zona = await Zonas.create({numero,eHorizontal,eVertical})
+        const zona = await Zonas.create({numero,area})
         console.log("valores de la zona", zona)
         return res.json(zona)
     } catch(err){

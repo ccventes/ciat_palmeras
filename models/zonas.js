@@ -23,16 +23,11 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
 
     },
-    eHorizontal: {
+    area: {
       type: DataTypes.STRING,
       allowNull: false,
 
-    },
-    eVertical: {
-      type: DataTypes.STRING,
-      allowNull: false,
-
-   }
+    }
   }, 
   
   {
