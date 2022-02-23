@@ -1,30 +1,36 @@
 'use strict';
 module.exports = {
-  async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('palmeras', {
+  async up(queryInterface, DataTypes) {
+    await queryInterface.createTable('palmera', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        type: DataTypes.INTEGER
       },
       tipo: {
-        type: Sequelize.STRING
+        type: DataTypes.STRING,
+        allowNull: false
       },
       enfermo: {
-        type: Sequelize.BOOLEAN
+        type: DataTypes.BOOLEAN,
+        allowNull: false
+      },
+      zonaID: {
+        type: DataTypes.INTEGER,
+        allowNull: false
       },
       createdAt: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: DataTypes.DATE
       },
       updatedAt: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: DataTypes.DATE
       }
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('palmeras');
+    await queryInterface.dropTable('palmera');
   }
 };

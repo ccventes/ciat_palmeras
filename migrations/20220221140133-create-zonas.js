@@ -5,8 +5,14 @@ module.exports = {
       id: {
         allowNull: false,
         autoIncrement: true,
-        primaryKey: true,
+        primaryKey: true, //llave primaria
         type: DataTypes.INTEGER
+      },
+      uuid: {
+        type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4,
+        allowNull: false,
+  
       },
       numero: {
         type: DataTypes.STRING,

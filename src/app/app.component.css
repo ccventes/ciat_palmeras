@@ -1,0 +1,8 @@
+.tbodyDiv{
+    max-height: clamp(5em,75vh,250px);
+    overflow: auto;
+}
+
+.tableFixHead          { overflow: auto; height: 100px; }
+.tableFixHead thead th { position: sticky; top: 0; z-index: 1; }
+th     { background:#FFFFFF; }

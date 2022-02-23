@@ -4,10 +4,10 @@
 <div class = "container">
    <div class = "row">
         <div  class="col-2"></div>
-        <div class ="col-8">
+        <div class ="col-8 tbodyDiv">
 
         
-          <table class="table table-striped table-responsive-md btn-table">
+          <table class="table table-striped table-responsive-md btn-table overflow-auto tableFixHead">
 
             <thead>
               <tr>
@@ -19,14 +19,7 @@
             </thead>
           
             <tbody>
-              <tr>
-                <th scope="row">1</th>
-                <td>Otto</td>
-                <td>@mdo</td>
-                <td>
-                  <button type="button" class="btn btn-outline-secondary">Acciones</button>
-                </td>
-              </tr>
+              
               <tr *ngFor="let field of zonas">
 
                 <th scope="row"> {{field.numero}} </th>

@@ -1,7 +1,7 @@
 //Install express server
 const express = require('express');
 const path = require('path');
-const {sequelize,Zonas} = require('./models'); // llamado a los modelo de sequlize
+const {sequelize,Zonas,Palmera} = require('./models'); // llamado a los modelo de sequlize
 //async function cargar_tablas(){
 //    await sequelize.sync({force: true})// crear db a partir de los modelos
 //}
@@ -59,6 +59,45 @@ app.get('/zonas/:numero', async(req,res)=>{
 
     }
 })
+
+
+app.post('/palmera', async(req,res)=>{
+    //const{znumero, tipo, enfermo} = req.tipo;
+    const tipo = req.body.tipo;
+    const enfermo = req.body.enfermo;
+    const znumero = req.body.numero;
+    try{
+     
+      const zona = await Zonas.findOne({where: {numero: znumero}}); //buscar una zona en especifica
+
+      const palmera = await Palmera.create({tipo, enfermo ,zonaID: zona.id});  // crear la palmera
+      return res.json(palmera);  //retornar la palmera
+    }
+    catch(err){
+
+        console.log(err)
+        return res.status(500).json(err);
+    }
+
+});
+
+app.get('/palmera', async(req,res)=>{
+      
+    try{
+
+     const palmeras = await Palmera.findAll({order: ['zonaID'], include : [{model : Zonas, as: 'zonas'}]}); 
+      
+      return res.json(palmeras);  //retornar el post
+    }
+    catch(err){
+
+        console.log('Se pifio en la funcion de mostrar '.red);
+        console.log(err)
+        return res.status(500).json(err);
+    }
+
+});
+
 
 
 app.get('/*', (req, res) =>
