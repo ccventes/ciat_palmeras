@@ -1,9 +1,9 @@
 {
   "development": {
-    "username": "b96040a7397862",
-    "password": "d9d6c1d9",
-    "database": "heroku_ab3c8d7fc1cdd7b",
-    "host": "us-cdbr-east-05.cleardb.net",
+    "username": "root",
+    "password": "ventesGuachinte2022&",
+    "database": "ciat_palmeras",
+    "host": "localhost",
     "dialect": "mysql"
   },
   "test": {

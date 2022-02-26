@@ -1,0 +1,44 @@
+
+<h2>s</h2>
+<div class = "row">
+    <div  class="col-2"></div>
+    <div class ="col-8 border rounded ">
+
+        <h2>Agregar zona</h2>
+        <form class ="d-flex justify-content-center">
+            <div class="mb-3">
+              <label class="form-label"> Ingresar area nueva zona: &nbsp;&nbsp;</label>
+              <input  class="text" [(ngModel)]= "Earea" (input)="CheckInteger($event)" >
+              <div class="form-text">Ingresa un valor entero no decimal mayor 50(metros cuadrados).</div>
+            </div>    
+        </form>
+        <div class = "row">
+            <div  class="col-3"></div>
+            <div class ="col-7 ">
+                <button type="submit" class="btn btn-primary  " (click)="SaveNew()" >Crea nueva zona</button>
+                <br>
+                <br>
+                
+            </div>
+            <div  class="col-2"></div>
+            <div class="alert alert-danger" role="alert" *ngIf="showAlert">
+                area debe tener un valor numerico y ser entre 50 y 5000
+            </div>
+            <div class="alert alert-success" role="alert" *ngIf="showSucces">
+                Dato agregado exitosamente
+            </div>
+           
+        </div>
+        
+        
+        
+        
+        
+
+    </div>
+    <div  class="col-2"></div>
+    
+
+</div>
+    
+    
