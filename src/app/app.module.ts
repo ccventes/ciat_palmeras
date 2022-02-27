@@ -7,11 +7,13 @@ import {FormsModule} from '@angular/forms'; //modulo agregado
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AgregarZonaComponent } from './agregar-zona/agregar-zona.component';
+import { AccionesComponent } from './acciones/acciones.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    AgregarZonaComponent
+    AgregarZonaComponent,
+    AccionesComponent
   ],
   imports: [
     BrowserModule,
