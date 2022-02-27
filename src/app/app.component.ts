@@ -16,6 +16,7 @@ export class AppComponent implements OnInit {
   public env: string = environment.location;
   subscription: Subscription 
   zonas: Zonas[];
+  PPZ: Array<number> = [0]; //palmeras per zone
   mustUpdate;
  
   //fila:string  = '<tr><th scope="row">' + this.title + '</th><td>' + this.title  + '</td><td>' + this.title  + `</td><td><button type="button" class="btn btn-outline-secondary">Acciones</button></td></tr>`
@@ -69,13 +70,44 @@ export class AppComponent implements OnInit {
   }
   recibirMensaje(event: any ){
 
-     this.mustUpdate = event;
+     //this.mustUpdate = event;
      console.log("se activa la señal del componente hijo:", event );
       
-      this.UpdateCampo("al recibir la orden del comp hijo")
+      
+     setTimeout(()=>{                           // <<<---using ()=> syntax
+      this.zonas = event;
+      this.UpdateCampo("al recibir la orden del comp hijo");
+    }, 3000);
      
-     
-  
+  }
+  recibirPalmeras(event: any){
+
+    console.log("El componente padre ha recibido las palmeras: ", event );
+    setTimeout(()=>{                           // <<<---using ()=> syntax
+      
+      this.countPalmeras(event);
+    }, 800);
+    
+  }
+  async countPalmeras(p:any){
+    let contador:number = 1;
+    console.log("p ",p)
+    //this.PPZ.push(0);
+    for(var index in p){
+
+      if(p[index].zonaID == contador){
+        this.PPZ[contador - 1] = this.PPZ[contador - 1] + 1;
+
+      }
+      else{
+        contador = contador + 1;
+        this.PPZ.push(1);
+
+      }
+    }
+    console.log(this.PPZ);
+
+
   }
   
 

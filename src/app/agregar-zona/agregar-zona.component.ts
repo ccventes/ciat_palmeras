@@ -1,7 +1,9 @@
 import { Component, OnInit, Input, Output } from '@angular/core';
 import {FormsModule} from '@angular/forms'; //modulo agregado
 import { ZonaService } from '../service/zona.service';
+import{PalmeraService} from '../service/palmera.service';
 import { Zonas } from '../interfaces/zonas';
+import { Palmeras } from '../interfaces/palmeras';
 import{ Subscription,interval, timer,Observable} from 'rxjs';
 import { EventEmitter } from '@angular/core';
 import { textChangeRangeIsUnchanged } from 'typescript';
@@ -14,28 +16,46 @@ import { textChangeRangeIsUnchanged } from 'typescript';
 })
 export class AgregarZonaComponent implements OnInit {
 
-  counter: number |undefined;
+  counter = 0;
   Earea: string;
   showAlert = false;
   showSucces = false;
   //@Input() zonas = []; // decorate the property with @Input()
-  @Output() enviarMsje: EventEmitter<boolean> = new EventEmitter<boolean>();
-  ShouldUpdate = false;
+  @Output() enviarMsje: EventEmitter<any> = new EventEmitter<any>();
+  @Output() enviarPalmeras: EventEmitter<any> = new EventEmitter<any>();
+  //ShouldUpdate = any;
   
   zonas: Zonas[];
+  palmeras: Palmeras[];
   
 
-  constructor(private Zsv: ZonaService) { }
+  constructor(private Zsv: ZonaService, private Ps: PalmeraService ) { }
 
   async ngOnInit() {
      
     
     await this.Size_of_array();
+    await this.getPalmeras();
+    
+    await setTimeout(()=>{                           // <<<---using ()=> syntax
+      
+      this.SendPalmeraData()
+    }, 3000);
           
     
 
 
   }
+  async getPalmeras(){
+       
+    this.Ps.getPalmeras().subscribe(
+      data =>{console.log("palmeras cargadas ",this.palmeras = data )} 
+      
+      );
+    console.log("Double check", this.palmeras);
+
+  }
+
   CheckInteger(event: any){
 
     const a = isNaN(Number(this.Earea));
@@ -62,23 +82,28 @@ export class AgregarZonaComponent implements OnInit {
 
     console.log("entro al savenew")
     console.log("El arreglo : ",this.counter) // hasta aqui tengo el tamaño del arreglo
-    
-    if(this.counter !== undefined){
-       await this.Size_of_array();  
+    /*
+    if(this.counter === undefined){
+      this.counter = 0; 
+        
     }
-    
+    else{
+
+      await this.Size_of_array();
+    }
+    */
     //this.Zs.addZona(NZ).subscribe(data => console.log(data));
     
     
     if(this.showAlert == false && this.Earea != '' && this.counter !== undefined ){
       console.log("!!!!!!!!counter es en estos momentos!!!!!!!!!!", this.counter);
       await this.increment_counter();
-      this.insert_element().then(res => this.GiveorderUpdate(true));      
+      await this.insert_element().then(res => this.GiveorderUpdate(true));      
       
                                
       this.Earea = "";
       this.showSucces = true;
-      await this.GiveorderUpdate(true);
+      //await this.GiveorderUpdate(true);
       
     }
     if(this.showSucces == true){
@@ -100,25 +125,33 @@ export class AgregarZonaComponent implements OnInit {
     //this.counter = 6;
     console.log("tamaño antes", this.counter)
     const t = await this.Zsv.getZonas().subscribe(data => {
-      this.zonas = data
+      this.zonas = data;
       this.counter = this.zonas.length;
+      console.log("el arreglo es ",this.zonas, "su longitud es ",  this.zonas.length," counter es", this.counter)
+      
     })
     
     console.log("jesucristo ", this.counter);
   }
-  async GiveorderUpdate(o:boolean){
+  async SendPalmeraData(){
+    console.log("he enviado las palmeras al componente principal");
+    this.enviarPalmeras.emit(this.palmeras); 
+
+  }
+  async GiveorderUpdate(o:any){
 
      console.log("he enviado el mensaje"); 
-     this.enviarMsje.emit(this.ShouldUpdate = o);
+     this.enviarMsje.emit(this.zonas);
      console.log("di la orden")
 
   }
 
   async insert_element(){
     console.log("inserte")
-    return new Promise((resolve,reject) => {
+    return new Promise<void>((resolve,reject) => {
     const NZ = {numero: (this.counter ).toString(), area: this.Earea}
     const tt = this.Zsv.addZona(NZ).subscribe(data => console.log(data));
+    resolve();
     })
   }
 

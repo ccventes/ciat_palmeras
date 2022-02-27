@@ -1,7 +1,7 @@
 
 
 <h1>{{env}}</h1>
-<div class = "container agregar-zona" (enviarMsje)="recibirMensaje($event)"></div>
+<div class = "container agregar-zona" (enviarMsje)="recibirMensaje($event)" (enviarPalmeras)="recibirPalmeras($event)" ></div>
 <br>
 <br>
 <div class = "container">
@@ -23,11 +23,11 @@
           
             <tbody>
               
-              <tr *ngFor="let field of zonas">
+              <tr *ngFor="let field of zonas; index as i">
 
                 <th scope="row"> {{field.numero}} </th>
                 <td>{{field.area}}</td>
-                <td>34</td>
+                <td>{{PPZ[i]}}</td>
                 <td>
                   <button type="button" class="btn btn-outline-secondary">Acciones</button>
                 </td>
