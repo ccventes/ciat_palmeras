@@ -82,17 +82,7 @@ export class AgregarZonaComponent implements OnInit {
 
     console.log("entro al savenew")
     console.log("El arreglo : ",this.counter) // hasta aqui tengo el tamaño del arreglo
-    /*
-    if(this.counter === undefined){
-      this.counter = 0; 
-        
-    }
-    else{
-
-      await this.Size_of_array();
-    }
-    */
-    //this.Zs.addZona(NZ).subscribe(data => console.log(data));
+   
     
     
     if(this.showAlert == false && this.Earea != '' && this.counter !== undefined ){
@@ -147,7 +137,7 @@ export class AgregarZonaComponent implements OnInit {
   }
 
   async insert_element(){
-    console.log("inserte")
+    console.log("inserté zona")
     return new Promise<void>((resolve,reject) => {
     const NZ = {numero: (this.counter ).toString(), area: this.Earea}
     const tt = this.Zsv.addZona(NZ).subscribe(data => console.log(data));

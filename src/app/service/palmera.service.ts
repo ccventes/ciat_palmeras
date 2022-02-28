@@ -32,11 +32,11 @@ export class PalmeraService {
     
     if(this.env  == 'local'){
 
-      return this.http.post<Palmeras>('http://localhost:8080/zonas',palmera);
+      return this.http.post<Palmeras>('http://localhost:8080/palmera',palmera);
     }
     else{
 
-      return this.http.post<Palmeras>('http://ciat-palmeras-def.herokuapp.com/zonas',palmera);
+      return this.http.post<Palmeras>('http://ciat-palmeras-def.herokuapp.com/palmera',palmera);
     }
   }
 }

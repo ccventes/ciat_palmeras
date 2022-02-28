@@ -70,7 +70,7 @@ app.post('/palmera', async(req,res)=>{
      
       const zona = await Zonas.findOne({where: {numero: znumero}}); //buscar una zona en especifica
 
-      const palmera = await Palmera.create({tipo, enfermo ,zonaID: zona.id});  // crear la palmera
+      const palmera = await Palmera.create({tipo, enfermo ,zonaID: zona.numero});  // crear la palmera
       return res.json(palmera);  //retornar la palmera
     }
     catch(err){

@@ -6,7 +6,7 @@
         <tbody>
           <tr>
             <th scope="row">Numero de Palmeras</th>
-            <td>{{info.zone}}</td>
+            <td>{{info.total}}</td>
           </tr>
           <tr>
             <th scope="row">Saludables</th>
@@ -21,6 +21,22 @@
             <td>{{info.gualpa}}</td>
           </tr>
       </table>
+
+      <form>
+        <h2>Ingresar palmera Zona seleccionada</h2>
+        <br/>
+        <br/>
+        <div class="form-check">
+            <select class="form-control" [(ngModel)]="opcionSeleccionado">
+                <option>saludable</option>
+                <option>escama roja</option>
+                <option>gualpa</option>
+              </select>
+        </div>
+        <br/>
+        <br/>
+        <button type="submit" class="btn btn-primary" (click)="InsertPalmera()">ingresar palmera</button>
+      </form>
       
 
 </div>

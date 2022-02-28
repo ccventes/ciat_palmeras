@@ -4,6 +4,10 @@ import { ZonaService } from './service/zona.service'
 import { Zonas } from './interfaces/zonas';
 import { Informacion } from './interfaces/informacion';
 import { forkJoin, Subscription,interval, timer } from 'rxjs';
+import{PalmeraService} from './service/palmera.service';
+import { Palmeras } from './interfaces/palmeras';
+import { EventEmitter } from '@angular/core';
+
 
 
 
@@ -22,47 +26,19 @@ export class AppComponent implements OnInit {
   PPZ: Array<number> = [0]; //palmeras per zone
   mustUpdate;
   info:Informacion;
+  selectedindex:number;
+  
   
  
  
   //fila:string  = '<tr><th scope="row">' + this.title + '</th><td>' + this.title  + '</td><td>' + this.title  + `</td><td><button type="button" class="btn btn-outline-secondary">Acciones</button></td></tr>`
-  constructor(private Zs: ZonaService ){
+  constructor(private Zs: ZonaService,private Ps: PalmeraService ){
 
   }
   async ngOnInit(){
 
-    //console.log(this.Zs.getZonas().subscribe());
-    //this.Zs.getZonas().subscribe(data =>this.zonas = data)
-    //console.log("tada",this.zonas);
-    //this.subscription.unsubscribe();
-    //setInterval(this.UpdateCampo, 3000);
     await this.UpdateCampo("Primera vez");
-    this.info = {  zone: 0,
-              saludables: 0,
-              gualpa: 0,
-              total: 0,
-              estado:0,
-              er:0,
-
-
-    }
-    
-    
-    /*
-    const contador = interval(1000);
-
-    
-    contador.subscribe((n) =>{
-      
-      if(this.mustUpdate == true){
-      console.log("repitiendo update: ",n )
-      this.UpdateCampo();
-      }
-    }
-    );
-    */
-    
-  
+     
 
   }
   async UpdateCampo(s:string){
@@ -80,7 +56,7 @@ export class AppComponent implements OnInit {
   Size_of_array(){
 
     this.Zs.getZonas().subscribe(
-      data =>{console.log("tamaño-->", this.zonas.length) } 
+      data =>{console.log("tamaño-->", this.zonas.length); } 
       
       );
   }
@@ -89,13 +65,37 @@ export class AppComponent implements OnInit {
      //this.mustUpdate = event;
      console.log("se activa la señal del componente hijo:", event );
       
-      
      setTimeout(()=>{                           // <<<---using ()=> syntax
       this.zonas = event;
       this.UpdateCampo("al recibir la orden del comp hijo");
     }, 3000);
      
   }
+  insertPalmera(mensaje:any){
+
+    console.log("mensaje de ingesar palmera ", mensaje);
+    let sick:boolean = false;
+    if(mensaje[0]=='saludable'){
+      sick = false;
+    }
+    else{
+
+      sick = true;
+    }
+    
+    setTimeout(()=>{                           // <<<---using ()=> syntax
+      const NP = {tipo: mensaje[0], enfermo: sick, numero: Number(mensaje[1]) }
+      console.log("NP", NP)
+      const PP = this.Ps.addPalmera(NP).subscribe(data => console.log(data));
+      this.countPalmeras(this.RecPalm);
+      this.contarTipoPlanta(this.RecPalm, this.selectedindex)
+      
+    }, 100);
+    
+  }
+
+  
+  
   recibirPalmeras(event: any){
 
     console.log("El componente padre ha recibido las palmeras: ", event );
@@ -107,6 +107,7 @@ export class AppComponent implements OnInit {
     
   }
   async countPalmeras(p:any){
+    
     let contador:number = 1;
     console.log("p ",p)
     //this.PPZ.push(0);
@@ -122,7 +123,9 @@ export class AppComponent implements OnInit {
 
       }
     }
+    
     console.log(this.PPZ);
+    
 
 
   }
@@ -130,7 +133,7 @@ export class AppComponent implements OnInit {
   async EnviarAccion(i:number){
 
     console.log("se ha hecho click en enviar acción ", i);
-    
+    this.selectedindex = i;
     console.log("palmeras recibidas", this.RecPalm);
     await this.contarTipoPlanta(this.RecPalm, i)
     
@@ -142,18 +145,17 @@ export class AppComponent implements OnInit {
   }
   async contarTipoPlanta(palm:any, i:number){
     console.log("funcion contar tipos de palma");
-    console.log("palma ", this.RecPalm);
+    console.log("palma 3333 ", this.RecPalm);
     console.log("boton ", i);
     console.log("PPZ en contarTipoPlanta", this.PPZ)
-    
-    this.info.zone = i + 1;
-
-    this.info.saludables = 0;
-    this.info.gualpa = 0;
-    this.info.total = 0;
-    this.info.estado = 0;
-    this.info.er = 0;
-
+   
+    this.info = {  zone: i + 1,
+      saludables: 0,
+      gualpa: 0,
+      total: 0,
+      estado:0,
+      er:0,
+   }
     for(var index in this.RecPalm){
       
       if(this.RecPalm[index].zonaID == this.info.zone){
@@ -172,6 +174,7 @@ export class AppComponent implements OnInit {
 
   }
   this.info.total =this.PPZ[i];
+  console.log("total--->",this.info.total);
   if(this.info.total == 0 ){
 
     this.info.estado = 2;
@@ -180,7 +183,7 @@ export class AppComponent implements OnInit {
 
     this.info.estado = 3;
   }
-  console.log(this.info);
+  console.log("info al final ",this.info);
 
 
 
