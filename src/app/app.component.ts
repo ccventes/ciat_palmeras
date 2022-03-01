@@ -87,10 +87,11 @@ export class AppComponent implements OnInit {
       const NP = {tipo: mensaje[0], enfermo: sick, numero: Number(mensaje[1]) }
       console.log("NP", NP)
       const PP = this.Ps.addPalmera(NP).subscribe(data => console.log(data));
-      this.countPalmeras(this.RecPalm);
-      this.contarTipoPlanta(this.RecPalm, this.selectedindex)
+      //this.countPalmeras(this.RecPalm);
+      this.UpdateNewPalmera(NP.numero ,NP.tipo, NP.enfermo);
+      //this.contarTipoPlanta(this.RecPalm, this.selectedindex)
       
-    }, 100);
+    }, 150);
     
   }
 
@@ -105,6 +106,27 @@ export class AppComponent implements OnInit {
       this.countPalmeras(event);
     }, 800);
     
+  }
+
+  async UpdateNewPalmera(numero:number, tipo:string, enfermo:boolean){
+
+      this.PPZ[numero - 1] = this.PPZ[numero - 1] + 1
+      this.info.zone =numero
+      if(tipo == 'gualpa'){
+
+         this.info.gualpa = this.info.gualpa + 1;
+      }
+      if(tipo == 'escama roja'){
+
+        this.info.er = this.info.er + 1;
+      }
+      if(tipo == 'saludable'){
+        this.info.saludables = this.info.saludables + 1;
+      }
+      //this.RecPalm
+
+
+      
   }
   async countPalmeras(p:any){
     
